@@ -98,7 +98,7 @@ execute_buildpack_at_subdir() {
 
       # Copies the Procfile from the subdir to the root directory
       echo 'Copying Procfile...'
-      cp $BUILD_DIR/$subdir/Procfile $BUILD_DIR/ 2>/dev/null
+      cp $BUILD_DIR/$subdir/Procfile $BUILD_DIR/ || true
 
       # Writes the profile file which initializes paths and sources
       # other profile files
