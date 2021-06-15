@@ -10,8 +10,8 @@ BUILDPACK=$(cat $ENV_DIR/BUILDPACK)
 function indent() {
   c='s/^/       /'
   case $(uname) in
-    Darwin) sed -l "$c";;
-    *)      sed -u "$c";;
+  Darwin) sed -l "$c" ;;
+  *) sed -u "$c" ;;
   esac
 }
 
@@ -26,9 +26,8 @@ write_profile() {
   # Set the home directory to be the subdir and source all profiles that
   # were placed here by the invoked buildpack
   # The $HOME variable must be escaped, so that its value is resolved at runtime and not now.
-  echo "export HOME=\"\$HOME/$subdir\" && source \"$subdir/.profile.d/\"*" > "$root_dir/.profile.d/heroku-subdir-init.sh"
+  echo "export HOME=\"\$HOME/$subdir\" && source \"$subdir/.profile.d/\"*" >"$root_dir/.profile.d/heroku-subdir-init.sh"
 }
-
 
 # Looks for a buildpack argument with the format
 # subdir=https://github.com/my/buildpack.git
@@ -94,16 +93,16 @@ execute_buildpack_at_subdir() {
       fi
 
       if [ -x $dir/bin/release ]; then
-        $dir/bin/release $BUILD_DIR/$subdir > $BUILD_DIR/$subdir/last_pack_release.out
+        $dir/bin/release $BUILD_DIR/$subdir >$BUILD_DIR/$subdir/last_pack_release.out
       fi
 
       # Copies the Procfile from the subdir to the root directory
-	  echo 'Copying Procfile...'
-      cp $BUILD_DIR/$subdir/Procfile $BUILD_DIR/
+      echo 'Copying Procfile...'
+      cp $BUILD_DIR/$subdir/Procfile $BUILD_DIR/ 2>/dev/null
 
       # Writes the profile file which initializes paths and sources
       # other profile files
-	  echo 'Creating .profile.d...'
+      echo 'Creating .profile.d...'
       write_profile "$BUILD_DIR" "$subdir"
     else
       echo "Couldn't detect any framework for this buildpack. Exiting."
