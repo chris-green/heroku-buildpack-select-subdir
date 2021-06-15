@@ -96,14 +96,6 @@ execute_buildpack_at_subdir() {
         $dir/bin/release $BUILD_DIR/$subdir >$BUILD_DIR/$subdir/last_pack_release.out
       fi
 
-      # Copies the Procfile from the subdir to the root directory
-      echo 'Copying Procfile...'
-      cp $BUILD_DIR/$subdir/Procfile $BUILD_DIR/ || true
-
-      # Writes the profile file which initializes paths and sources
-      # other profile files
-      echo 'Creating .profile.d...'
-      write_profile "$BUILD_DIR" "$subdir"
     else
       echo "Couldn't detect any framework for this buildpack. Exiting."
       exit 1
